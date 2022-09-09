@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title></title>
+    <style type="text/css">
+    @import url(https://fonts.googleapis.com/css?family=Merriweather);
+
+    *,
+    *:before,
+    *:after {
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        font-size: 16pt;
+        background: #f1f1f1;
+        font-family: 'Merriweather', sans-serif;
+        padding: 1em;
+    }
+
+    h1 {
+        text-align: center;
+        color: #a8a8a8;
+        text-shadow: 1px 1px 0 white;
+    }
+
+    form {
+        max-width: 1600px;
+        max-height: 1600px;
+        text-align: center;
+        margin: 20px auto;
+    }
+
+    form input,
+    form button,
+    form textarea {
+        font-size: 14pt;
+        border: 0;
+        outline: 0;
+        padding: 1em;
+        -moz-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+        display: block;
+        width: 100%;
+        margin-top: 1em;
+        font-family: 'Merriweather', sans-serif;
+        -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        resize: none;
+    }
+
+    form input:focus,
+    form button:focus,
+    form textarea:focus {
+        -moz-box-shadow: 0 0px 2px #e74c3c !important;
+        -webkit-box-shadow: 0 0px 2px #e74c3c !important;
+        box-shadow: 0 0px 2px #e74c3c !important;
+    }
+
+    form #input-submit {
+        color: white;
+        background: #e74c3c;
+        cursor: pointer;
+    }
+
+    form #input-submit:hover {
+        -moz-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+        -webkit-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+        box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+    }
+
+    form textarea {
+        height: 82px;
+    }
+
+
+    .half {
+        float: left;
+        width: 48%;
+        margin-bottom: 1em;
+    }
+    
+    .l_half {
+        float: left;
+        width: 20%;
+        margin-bottom: 1em;
+    }
+
+    .r_half {
+        float: left;
+        width: 100%;
+        margin-bottom: 1em;
+    }
+
+    .right {
+        width: 78%;
+    }
+
+    .left {
+        margin-right: 2%;
+    }
+
+    @media (max-width: 480px) {
+        .half {
+            width: 100%;
+            float: none;
+            margin-bottom: 0;
+        }
+    }
+
+    @media screen and (min-width: 1024px) {
+        #d1{
+            height:250px;
+            }
+        }      
+
+    @media screen and (max-width: 800px) {
+    #d1{
+        height:150px;
+    }
+    }
+
+    @media screen and (max-width: 600px) {
+    #d1{
+        height:100px;
+    }
+    }
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    font-size-adjust: inherit;
+    font-size: 20px;
+    }
+
+    td, th {
+        border: 2px solid #dddddd;
+        text-align: left;
+        padding: 6px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+        
+    /* Clearfix */
+    .cf:before,
+    .cf:after {
+        content: " ";
+        /* 1 */
+        display: table;
+        /* 2 */
+    }
+
+    .cf:after {
+        clear: both;
+    }
+
+    .info {
+        color: coral;
+        margin-left: -56px;
+        position: fixed;
+        font-size: 10pt;
+        width: 100%;
+        text-align: center;
+
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form id='form_1'>
+                <div class="cf" style="padding-top: 130px;">
+                    <h1 style="color:coral;padding-bottom: 20px;">CORD Research Engine</h1>
+                    <p>Prioritize the surfacing of actionable research</p>
+                    </div>
+                    
+                    <input type="text" id="input1-problem" placeholder="Abstract" value="antiviral treatment">
+
+                    <button type="submit" value="Submit" id="input-submit">Submit</button>
+                    
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    </div>
+    
+    <div class="container" id="d2" style="padding-top: 50px;display: none;max-width: 1640px;">
+         <div class="row">
+        
+            <h5 style="text-align: center;">Related Research Papers</h5>
+            <div id=tableDict1></div>
+        
+        </div>
+    </div>
+</body>
+<script>
+
+$(document).ready(function (e) {
+
+    $('#form_1').submit(function(g){
+        g.preventDefault();
+        var request = { "query": $("#input1-problem").val()}
+        var data = JSON.stringify(request)
+        console.log(data)
+                
+        $.ajax({
+            url: '/similar', // point to server-side URL
+            dataType: 'json', // what to expect back from server
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: data,
+            type: 'post',
+
+            complete: function(){
+                    $("#d2").show();
+                },
+            
+            success: function (response) { // display success response
+                data1=response['value1']
+                $("#tableDict1").html(data1);
+
+            },
+            error: function (response) {
+                $('#div1').html('error'); // display error response
+            }
+        });
+    });
+
+});
+
+
+</script>
+
+</html>
